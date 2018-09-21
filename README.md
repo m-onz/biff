@@ -10,14 +10,10 @@ var biff = require('@m-onz/biff')()
 biff.spawn(__filename).catch(function (e) {})
 
 biff.spawn(`
-function a () {
-	console.log(33)
-	send(123, 'hello world! from SEND')
-}
-receive().then(function (message) {
+receive(self).then(function (message) {
 	console.log(message)
 })
-a()
+send(self, 'turnips')
 `)
 .then(function (pid) {
 	console.log(pid, ' pid')

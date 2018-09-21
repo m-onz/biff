@@ -7,6 +7,8 @@ Experimental actor system using isolated javascript runtimes
 
 var biff = require('@m-onz/biff')()
 
+biff.spawn(__filename).catch(function (e) {})
+
 biff.spawn(`
 function a () {
 	console.log(33)
@@ -29,14 +31,13 @@ a()
 
 ```js
 
-receive(self).then(function (message) {
-	console.log('> ', message)
-})
+console.log('pid>', self)
 
 send(self, 'hello world')
 
-spawn(function () {
-
+receive(self).then(function (message) {
+	console.log(message)
+	spawn('console.log(11)')
 })
 
 ```

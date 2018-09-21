@@ -17,6 +17,11 @@ receive(self).then(function (x) {
 )
 .then(function (pid) {
 	console.log('..', ' pid ', pid)
-	// biff.send(pid, 'turnips!')
+	setTimeout(function () {
+		biff.send(pid, { a: Math.random() })
+		biff.receive(pid, function (e, inbox) {
+			console.log(inbox)
+		})
+	}, 1000)
 })
 .catch(function (e) { console.log(e); })

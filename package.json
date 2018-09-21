@@ -1,0 +1,22 @@
+{
+  "name": "biff",
+  "version": "1.0.0",
+  "description": "Experimental actor system using isolated javascript runtimes",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/m-onz/biff.git"
+  },
+  "author": "m-onz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/m-onz/biff/issues"
+  },
+  "homepage": "https://github.com/m-onz/biff#readme",
+  "dependencies": {
+    "isolated-vm": "^1.7.2"
+  }
+}

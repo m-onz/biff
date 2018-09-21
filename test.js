@@ -1,8 +1,7 @@
 
 var biff = require('.')()
 
-biff.spawn(
-`
+var c = `
 send(self, 'turnips')
 receive(self).then(function (x) {
 	console.log(x)
@@ -14,7 +13,13 @@ receive(self).then(function (x) {
 		})
 	})
 })`
-)
+
+biff.spawn(__dirname+'/example.js')
+.then(function (pid) {
+	console.log('example pid')
+})
+
+biff.spawn(c)
 .then(function (pid) {
 	console.log('..', ' pid ', pid)
 	setTimeout(function () {

@@ -24,13 +24,16 @@ function bootstrap (context, iso) {
     b.spawn(f)
   }))
   jail.setSync('_receive', new ivm.Reference(handleReceive))
-  const code = iso.compileScriptSync(fs.readFileSync("./bootstrap.js").toString())
+  const code = iso.compileScriptSync(fs.readFileSync('./bootstrap.js').toString())
   code.runSync(context)
 }
 
 function biff () {
   if (! (this instanceof biff)) return new biff ()
   this.spawn = function (actor) {
+    if (actor.includes('/') && actor.startsWith('/')) {
+      actor = fs.readFileSync(actor)
+    }
     return new Promise(function (resolve, reject) {
       const pid = `<${crypto.randomBytes(2).toString('hex')}::${crypto.randomBytes(2).toString('hex')}>`
       const src = actor.toString()

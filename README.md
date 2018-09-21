@@ -24,3 +24,19 @@ a()
 .catch(function (e) { throw e; })
 
 ```
+
+## actor methods
+
+```js
+
+receive(self).then(function (message) {
+	console.log('> ', message)
+})
+
+send(self, 'hello world')
+
+spawn(function () {
+
+})
+
+```

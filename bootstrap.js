@@ -1,4 +1,4 @@
-
+//
 new function () {
   let ivm = _ivm;
   delete _ivm;
@@ -28,4 +28,10 @@ new function () {
   global.send = function (...args) {
     send.applyIgnored(undefined, args.map(arg => new ivm.ExternalCopy(arg).copyInto()));
   }
+  let spawn = _spawn;
+  delete _spawn;
+  global.spawn = function (...args) {
+    spawn.applyIgnored(undefined, args.map(arg => new ivm.ExternalCopy(arg).copyInto()));
+  }
 }
+//

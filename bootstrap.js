@@ -24,7 +24,7 @@ new function () {
     })
   }
   global.receive = function (cb) {
-    __receive(self).then(cb)
+    __receive(self).then(cb).catch(cb)
   }
   let send = _send;
   delete _send;
@@ -39,16 +39,13 @@ new function () {
   // util
   let setTimeout = _setTimeout
   delete _setTimeout
-  global.__setTimeout = function (timer, callback) {
+  global.setTimeout = function (timer, callback) {
     return new Promise((resolve, reject) => {
       const callback = new ivm.Reference(function () {
         resolve()
       })
       setTimeout.apply(null, [ timer, callback ])
     })
-  }
-  global.setTimeout = function (cb, timer) {
-    global.__setTimeout(timer).then(cb)
   }
 }
 //

@@ -32,10 +32,18 @@ biff.spawn('something.js').catch(function (e) {})
 
 // inline spawn
 biff.spawn(`
-	receive(self).then(function (message) {
-		console.log(message)
-	})
-	send(self, 'turnips')
+  function recurse () {
+    receive(function (messages) {
+      if (messages && messages.length) console.log(messages, ' from actor')
+      setTimeout(0).then(function () {
+        recurse ()
+      })
+    })
+  }
+  recurse()
+  setTimeout(1000).then(function () {
+    send(self, { message: 'turnips' })
+  })
 `)
 .then(function (pid) {
 	console.log(pid, ' pid')

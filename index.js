@@ -24,8 +24,15 @@ function bootstrap (context, iso) {
     b.spawn(f)
   }))
   jail.setSync('_receive', new ivm.Reference(handleReceive))
+
+  // rubbish setTimeout shim
+  //
+  jail.setSync('_setTimeout', new ivm.Reference(handleSetimeout))
+
   const code = iso.compileScriptSync(fs.readFileSync('./bootstrap.js').toString())
   code.runSync(context)
+
+  setTimeout(function () {}, 30000)
 }
 
 function biff () {
@@ -60,7 +67,13 @@ function biff () {
 function handleReceive(pid, callback) {
   var r = mailboxes[pid]
   if (!r) r = {}
-  callback.apply(null, [null, JSON.stringify(r)])
+  callback.apply(null, [ null, JSON.stringify(r) ])
+}
+
+function handleSetimeout (timer, callback) {
+  setTimeout(function () {
+    callback.apply(null, [ null, true ])
+  }, timer)
 }
 
 module.exports = biff

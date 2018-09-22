@@ -33,5 +33,19 @@ new function () {
   global.spawn = function (...args) {
     spawn.applyIgnored(undefined, args.map(arg => new ivm.ExternalCopy(arg).copyInto()));
   }
+  // util
+  let setTimeout = _setTimeout
+  delete _setTimeout
+  global.__setTimeout = function (timer, callback) {
+    return new Promise((resolve, reject) => {
+      const callback = new ivm.Reference(function () {
+        resolve()
+      })
+      setTimeout.apply(null, [ timer, callback ])
+    })
+  }
+  global.setTimeout = function (cb, timer) {
+    global.__setTimeout(timer).then(cb)
+  }
 }
 //

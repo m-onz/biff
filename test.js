@@ -1,5 +1,5 @@
 
-var biff = require('.')()
+console.log(process)
 
 var c = `
 send(self, 'turnips')
@@ -17,6 +17,7 @@ receive(self).then(function (x) {
 biff.spawn(__dirname+'/example.js')
 .then(function (pid) {
 	console.log('example pid')
+	console.log('>>> ', fs.readFileSync(__dirname+'/example.js').toString())
 })
 
 biff.spawn(c)

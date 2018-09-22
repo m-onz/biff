@@ -57,11 +57,11 @@ biff.spawn(`
 
 ```js
 
-console.log('pid>', self)
+console.log('<pid>', self)
 
-send(self, 'hello world')
+send(self, { message: 'hello world' })
 
-receive(self).then(function (message) {
+receive(function (message) {
 	console.log(message)
 })
 

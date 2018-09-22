@@ -58,15 +58,24 @@ function biff () {
     mailboxes[pid].push(message)
   }
   this.receive = function (pid, callback) {
+    console.log(mailboxes)
+    var r = []
+    mailboxes[pid].forEach(function (messages) {
+      r.push(messages)
+    })
+    mailboxes[pid] = []
     try {
-      callback(null, mailboxes[pid])
+      callback(null, r)
     } catch (e) { callback(e); }
   }
 }
 
 function handleReceive(pid, callback) {
-  var r = mailboxes[pid]
-  if (!r) r = {}
+  var r = []
+  mailboxes[pid].forEach(function (messages) {
+    r.push(messages)
+  })
+  mailboxes[pid] = []
   callback.apply(null, [ null, JSON.stringify(r) ])
 }
 

@@ -11,7 +11,7 @@ new function () {
   }
   let receive = _receive
   delete _receive
-  global.receive = function (mailbox, callback) {
+  global.__receive = function (mailbox, callback) {
     return new Promise((resolve, reject) => {
       const callback = new ivm.Reference(function (err, resp) {
         if (err) {
@@ -22,6 +22,9 @@ new function () {
       })
       receive.apply(null, [mailbox, callback])
     })
+  }
+  global.receive = function (cb) {
+    __receive(self).then(cb)
   }
   let send = _send;
   delete _send;

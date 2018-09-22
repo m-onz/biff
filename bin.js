@@ -1,15 +1,16 @@
 #!/usr/bin/env node
 
+var assert = require('assert')
 var path = require('path')
 var biff = require('.')()
 var vm   = require('vm')
 var fs   = require('fs')
 
-global.require = require
+global.fs = fs
 global.biff = biff
+global.assert = assert
 global.__dirname = __dirname
 global.process = process
-global.fs = fs
 
 try {
   var args = process.argv.slice(2)

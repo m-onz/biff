@@ -21,7 +21,7 @@ Only the file called with biff can use node modules... anything spawned will onl
 
 To work with node modules / the filesystem and privileged machine access you will need to do that
 work in the main process and use message passing to send it your actors. Actors have limited memory
- to work in and have access to anything other than their ```send```, ```reveive``` and  ```spawn``` methods.
+ to work in and have access to anything other than their ```send```, ```receive``` and  ```spawn``` methods.
 
 ### example.js
 
@@ -44,6 +44,10 @@ biff.spawn(`
 .catch(function (e) { throw e; })
 
 ```
+
+## actor properties
+
+* self (the actors own process id or PID)
 
 ## actor methods
 
@@ -75,7 +79,7 @@ npm install @m-onz/biff -g
 
 ```
 
-# develop
+## develop
 
 ```sh
 git clone https://github.com/m-onz/biff

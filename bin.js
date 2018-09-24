@@ -16,6 +16,8 @@ global.process = process
 global.spawn = biff.spawn
 global.send = biff.send
 global.receive = biff.receive
+global.self = '\n\n FAILURE! you are trying to run an actor in parent scope!' +
+'\n\n Try running npm start instead\n\n'
 
 try {
   var args = process.argv.slice(2)

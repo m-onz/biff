@@ -28,7 +28,7 @@ biff.spawn(c)
   console.log(pid)
   setInterval(function () {
     biff.send (pid, { m: Math.random() })
-  }, 1000)
+  }, 999)
   setInterval(function () {
     biff.receive(pid, function (e, message) {
       console.log('>',message)

@@ -14,7 +14,7 @@
   You must use message passing ONLY to interface with node.
 */
 
-console.log(self)
+console.log('from actor example ', self)
 
 function recurse () {
   receive(function (messages) {
@@ -26,3 +26,7 @@ function recurse () {
 }
 
 recurse()
+
+setTimeout(4000).then(function () {
+  exit(self)
+})

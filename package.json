@@ -1,5 +1,5 @@
 {
-  "name": "biff",
+  "name": "@m-onz/biff",
   "version": "1.0.0",
   "description": "Experimental actor system using isolated javascript runtimes",
   "main": "index.js",

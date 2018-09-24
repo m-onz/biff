@@ -22,6 +22,9 @@ spawn(__dirname+'/actor.js')
       send(pid, { self: actor2, m: Math.random() })
     }, 1000)
   })
+  .catch(function (e) {
+    console.log('error in actor ', e)
+  })
 
 spawn(__dirname+'/actor.js')
   .then(function (pid) {
@@ -30,6 +33,9 @@ spawn(__dirname+'/actor.js')
     setTimeout(function () {
       send(actor2, { self: actor1, m: Math.random() })
     }, 1000)
+  })
+  .catch(function (e) {
+    console.log('error in actor ', e)
   })
 
 console.log('we have fs access here::', fs.readdirSync(__dirname))

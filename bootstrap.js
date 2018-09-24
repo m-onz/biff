@@ -36,13 +36,22 @@ new function () {
   global.spawn = function (...args) {
     spawn.applyIgnored(undefined, args.map(arg => new ivm.ExternalCopy(arg).copyInto()));
   }
+  let exit = _exit;
+  delete _exit;
+  global.exit = function (...args) {
+    exit.applyIgnored(undefined, args.map(arg => new ivm.ExternalCopy(arg).copyInto()));
+  }
   // util
   let setTimeout = _setTimeout
   delete _setTimeout
   global.setTimeout = function (timer, callback) {
     return new Promise((resolve, reject) => {
-      const callback = new ivm.Reference(function () {
-        resolve()
+      const callback = new ivm.Reference(function (err, resp) {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(resp)
+        }
       })
       setTimeout.apply(null, [ timer, callback ])
     })

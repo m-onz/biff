@@ -33,3 +33,7 @@ spawn(__dirname+'/actor.js')
   })
 
 console.log('we have fs access here::', fs.readdirSync(__dirname))
+
+setTimeout(function () {
+  process.exit(0)
+}, 6000)

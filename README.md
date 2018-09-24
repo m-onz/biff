@@ -28,7 +28,7 @@ work in the main process and use message passing to send it your actors. Actors 
 ```js
 
 // spawn a file
-biff.spawn('something.js').catch(function (e) {})
+biff.spawn(__dirname+'/something.js').catch(function (e) {})
 
 // inline spawn
 biff.spawn(`

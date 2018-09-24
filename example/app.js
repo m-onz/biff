@@ -1,12 +1,13 @@
 
 /*
 
-demo app 1
+  demo app
 
-run with... biff app.js
+  run with... biff app.js
+  or...       npm start
 
-we can access node API from the main program.
-there is no need to import using require.
+  we can access node API from the main program.
+  there is no need to import using require.
 
 */
 
@@ -30,3 +31,5 @@ spawn(__dirname+'/actor.js')
       send(actor2, { self: actor1, m: Math.random() })
     }, 1000)
   })
+
+console.log('we have fs access here::', fs.readdirSync(__dirname))

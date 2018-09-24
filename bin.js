@@ -6,7 +6,7 @@ var biff = require('.')()
 var vm   = require('vm')
 var fs   = require('fs')
 
-// review exposed node interfaces
+// exposed node interfaces
 //
 global.fs = fs
 global.biff = biff

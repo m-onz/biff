@@ -4,7 +4,7 @@
   "description": "Experimental actor system using isolated javascript runtimes",
   "main": "index.js",
   "scripts": {
-    "test": "node ./bin.js tests/recursion.js"
+    "test": "node ./bin.js tests/basic.js && node ./bin.js tests/recursion.js"
   },
   "repository": {
     "type": "git",

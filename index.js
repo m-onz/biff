@@ -60,11 +60,11 @@ function biff () {
     self.ready = true
   })
   self.spawn = function (actor) {
-    if (actor.includes('/') && actor.startsWith('/')) {
-      actor = fs.readFileSync(actor)
-    }
     return new Promise(function (resolve, reject) {
       if (!self.ready) return reject('not ready')
+      if (actor.includes('/') && actor.startsWith('/')) {
+        actor = fs.readFileSync(actor)
+      }
       const pid = `${crypto.randomBytes(2).toString('hex')}:${crypto.randomBytes(2).toString('hex')}`
       const src = actor.toString()
       const isolate = new ivm.Isolate({ memoryLimit: 128 })

@@ -11,8 +11,11 @@ var fs   = require('fs')
 global.fs = fs
 global.biff = biff
 global.assert = assert
-global.__dirname = __dirname
+global.__dirname = process.cwd()
 global.process = process
+global.spawn = biff.spawn
+global.send = biff.send
+global.receive = biff.receive
 
 try {
   var args = process.argv.slice(2)

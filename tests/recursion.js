@@ -39,4 +39,4 @@ biff.spawn(c)
 
 setTimeout(function () {
   process.exit(0)
-}, 15000)
+}, 6000)

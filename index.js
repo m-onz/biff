@@ -6,17 +6,14 @@ const ivm = require('isolated-vm')
 const fs = require('fs')
 
 function biff () {
-
   if (! (this instanceof biff)) return new biff ()
-
   this.mesh = Mesh(ram, null, { id: 'mailbox', options: { valueEncoding: 'json' } })
   var self = this.mesh
-
   function handleReceive(pid, callback) {
     return self.db.get(`/${pid}`, function (e, d) {
       if (e) throw e
       if (e || !d[0]) callback.apply(null, [ JSON.stringify(e) ])
-      if (callback && self.ready) callback.apply(null, [ null, JSON.stringify(d[0].value) ])
+      if (callback && self.ready) callback.apply(null, [null, JSON.stringify(d[0].value) ])
        else callback.apply(null, [ JSON.stringify(e) ])
     })
   }
@@ -25,7 +22,6 @@ function biff () {
       callback.apply(null, [ null, true ])
     }, timer)
   }
-
   self.bootstrap = function (context, iso) {
     const jail = context.globalReference()
     jail.setSync('global', jail.derefInto())
@@ -52,9 +48,7 @@ function biff () {
     code.runSync(context)
     setTimeout(function () {}, 30000)
   }
-
   self.ready = false
-
   self.on('ready', function () {
     console.log('biff replication key ', self.db.key.toString('hex'))
     self.ready = true
@@ -62,19 +56,20 @@ function biff () {
   self.spawn = function (actor) {
     return new Promise(function (resolve, reject) {
       if (!self.ready) return reject('not ready')
+      // improve script detector function!!
       if (actor.includes('/') && actor.startsWith('/')) {
-        actor = fs.readFileSync(actor)
-      }
-      const pid = `${crypto.randomBytes(2).toString('hex')}:${crypto.randomBytes(2).toString('hex')}`
+        actor = fs.readFileSync(actor); }
+      const ida = crypto.randomBytes(2).toString('hex')
+      const idb = crypto.randomBytes(2).toString('hex')
+      const pid = `${ida}:${idb}`
       const src = actor.toString()
       const isolate = new ivm.Isolate({ memoryLimit: 128 })
       const context = isolate.createContextSync()
       self.bootstrap(context, isolate)
-      self.db.put(`/${pid}`, {}, function (e) {
-        if (e) throw e
-      })
+      self.db.put(`/${pid}`, {}, function (e) { if (e) throw e; })
       try {
-        isolate.compileScriptSync('global.self="'+pid+'";'+src).runSync(context)
+        isolate.compileScriptSync(`global.self="${pid}";${src}`)
+          .runSync(context)
         resolve(pid)
       } catch (e) { reject(e); }
     })
@@ -87,13 +82,11 @@ function biff () {
   self.receive = function (pid, callback) {
     self.db.get(`/${pid}`, function (e, d) {
       if (e || !d[0]) return callback(e)
-      if (Object.keys(d[0].value).length) callback(null, d[0].value)
+      if (d[0] && Object.keys(d[0].value).length) callback(null, d[0].value)
         else callback('error')
     })
   }
   return self
 }
-
-
 
 module.exports = biff

@@ -2,11 +2,7 @@
 console.log(process.cwd())
 
 var c = `
-	send(self, { message: 'turnips' })
-	receive(function (x) {
-		console.log(x)
-		//spawn('function a () { console.log(22); spawn("console.log(55)"); } a();')
-	})
+	console.log(11);
 `
 
 biff.spawn(__dirname+'/tests/example.js')
@@ -20,21 +16,13 @@ biff.spawn(c)
 .then(function (pid) {
 	setTimeout(function () {
 		biff.send(pid, { a: Math.random(), t: new Date().toISOString() })
-		biff.send(pid, { b: Math.random(), t: new Date().toISOString() })
-		biff.send(pid, { c: Math.random(), t: new Date().toISOString() })
-	}, 500)
+	}, 1)
 	setTimeout(function () {
 		biff.receive(pid, function (e, inbox) {
-			// assert.ok(inbox.length === 3)
-			console.log('1', inbox)
-			// messages flush after reading
-			biff.receive(pid, function (e, inbox) {
-				if (e) throw e
-				console.log('2', inbox)
-				// assert.ok(inbox.length === 0)
-				console.log('tests have passed!')
-				process.exit(0)
-			})
+			console.log(inbox, ' inbox')
+			assert.ok(typeof inbox === 'object')
+			console.log('tests have passed!')
+			process.exit(0)
 		})
 	}, 1000)
 })

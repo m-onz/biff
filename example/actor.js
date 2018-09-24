@@ -1,4 +1,19 @@
 
+/*
+  actors do not have access to nodes API...
+
+  try {
+    console.log(process)
+    var fail = require('will-fail')
+  } catch (e) {
+    console.log('.', e)
+  }
+
+  the above will fail.
+
+  You must use message passing ONLY to interface with node.
+*/
+
 console.log(self)
 
 function recurse () {

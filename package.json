@@ -18,7 +18,6 @@
   "homepage": "https://github.com/m-onz/biff#readme",
   "dependencies": {
     "hyperdb-mesh": "0.0.3",
-    "install": "^0.12.1",
     "isolated-vm": "^1.7.2",
     "random-access-memory": "^3.0.0"
   },

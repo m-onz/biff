@@ -54,8 +54,7 @@ var biff = require('@m-onz/biff').client
 biff.spawn('console.log(11)').catch((e) => console.log)
 biff.send('123', { hello: 'world' }).catch((e) => console.log)
 biff.receive('123').then(function (mailbox) {
-  console.log(mailbox
-  )
+  console.log(mailbox)
 }).catch((e) => console.log)
 
 ```

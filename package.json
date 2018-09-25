@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/m-onz/biff#readme",
   "dependencies": {
+    "duplex-json-stream": "^1.0.1",
     "hyperdb-mesh": "0.0.3",
     "isolated-vm": "^1.7.2",
     "random-access-memory": "^3.0.0"

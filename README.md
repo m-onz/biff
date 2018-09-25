@@ -23,7 +23,7 @@ setTimeout(1000).then(function () {
 
 ```
 
-* then run with ```biff ./example.js```
+* then run with ```biff ./app.js```
 
 
 ### example

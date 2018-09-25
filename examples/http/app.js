@@ -15,15 +15,13 @@ http.createServer(function (req, res) {
 
   spawn (__dirname+'/actor.js').then(function (pid) {
     send(pid, { req: req.url }).then(function () {
-      setTimeout(function () {
-        receive('server').then(function (message) {
-          if (Object.keys(message.mailbox).length) {
-            res.end(JSON.stringify(message))
-          } else {
-            res.end(JSON.stringify([]))
-          }
-        })
-      }, 11)
+      receive('server::'+pid).then(function (message) {
+        if (message.hasOwnProperty('mailbox') && Object.keys(message.mailbox).length) {
+          res.end(JSON.stringify(message))
+        } else {
+          res.end(JSON.stringify([]))
+        }
+      })
     })
   })
 

@@ -19,7 +19,9 @@ console.log('from actor example ', self)
 function mailbox (callback) {
   receive(function (messages) {
     var _messages = Object.assign({}, messages)
-    if (typeof _messages === 'object' && Object.keys(_messages).length) callback(_messages)
+    try {
+      if (typeof _messages === 'object' && Object.keys(_messages).length) callback(_messages)
+    } catch (e) {}
     setTimeout(0).then(function () {
       mailbox (callback)
     })
@@ -27,6 +29,6 @@ function mailbox (callback) {
 }
 mailbox(function (message) {
   if (message.hasOwnProperty('req')) {
-    send('server', { message: Math.random() })
+    send('server::'+self, { message: Math.random() })
   }
 })

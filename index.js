@@ -90,7 +90,9 @@ function biff () {
         queue.push(message)
         self.db.put(`/actors/${pid}`, queue, function (e) {
           if (e) return reject (e)
-          resolve({ sent: pid })
+          setTimeout(function () {
+            resolve({ sent: pid })
+          }, 50)
         })
       })
     })

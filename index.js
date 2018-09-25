@@ -54,6 +54,8 @@ function biff () {
       console.log('should destroy... ', args)
       self.kill(args[0]).then(function () {
         console.log('<killing>', args[0])
+        jail.release()
+        iso.dispose()
       }).catch(function (e) { console.log('error killing actor::', e)})
     }))
     jail.setSync('_receive', new ivm.Reference(self.handleReceive))
@@ -73,7 +75,7 @@ function biff () {
       var isolate = new ivm.Isolate({ memoryLimit: 128 })
       var context = isolate.createContextSync()
       self.bootstrap(context, isolate)
-      isolate.compileScriptSync(`global.self="${pid}"; \n\n ${src}`)
+      isolate.compileScriptSync(`global.self="${pid}";\n\n${src}`)
         .run(context)
         .then(function () {
           console.log('<', pid, '>')

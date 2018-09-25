@@ -1,0 +1,11 @@
+{
+  "name": "example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "actor.js",
+  "scripts": {
+    "start": "biff ./app.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

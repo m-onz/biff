@@ -1,13 +1,14 @@
 
 console.log(process.cwd())
 
-var c = `console.log(11);`
+var c = `console.log(11);exit()`
 
 spawn(__dirname+'/tests/example.js')
 .then(function (pid) {
 	console.log('example pid ', pid)
 	assert.ok(typeof pid === 'string')
-	assert.ok(typeof fs.readFileSync(__dirname+'/tests/example.js').toString() === 'string')
+	//assert.ok(typeof fs.readFileSync(__dirname+'/tests/example.js').toString() === 'string')
+	kill(pid)
 }).catch((e) => console.log(e))
 
 biff.spawn(c)
@@ -18,6 +19,7 @@ biff.spawn(c)
 	setTimeout(function () {
 		receive(pid, function (e, inbox) {
 			console.log(inbox, ' inbox')
+			kill(pid)
 			assert.ok(typeof inbox === 'object')
 			console.log('tests have passed!')
 			process.exit(0)

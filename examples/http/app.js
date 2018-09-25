@@ -1,13 +1,7 @@
 
 /*
 
-  demo app
-
-  run with... biff app.js
-  or...       npm start
-
-  we can access node API from the main program.
-  there is no need to import using require.
+  http demo
 
 */
 
@@ -27,6 +21,7 @@ http.createServer(function (req, res) {
         }
         clearInterval(timeout)
         kill(pid)
+        kill('server::'+pid) // delete the temporary channel
       })
     })
   })

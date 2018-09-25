@@ -46,11 +46,14 @@ function biff () {
     jail.setSync('_spawn', new ivm.Reference(function (...args) {
       var f = args[0]
       self.spawn(f).then(function (pid) {
-        console.log('spawned>', pid)
+        console.log('<spawned>', pid)
       }).catch(function (e) { console.log('error during spawn::', e)})
     }))
     jail.setSync('_exit', new ivm.Reference(function (...args) {
       console.log('should destroy... ', args)
+      self.kill(args[0]).then(function () {
+        console.log('<killing>', args[0])
+      }).catch(function (e) { console.log('error killing actor::', e)})
     }))
     jail.setSync('_receive', new ivm.Reference(self.handleReceive))
     jail.setSync('_setTimeout', new ivm.Reference(self.handleSetimeout))

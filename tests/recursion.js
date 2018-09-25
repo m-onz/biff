@@ -26,14 +26,14 @@ send_demo ()
 biff.spawn(c)
 .then(function (pid) {
   console.log(pid)
-  setInterval(function () {
-    biff.send (pid, { m: Math.random() })
-  }, 999)
-  setInterval(function () {
-    biff.receive(pid, function (e, message) {
-      console.log('>',message)
-    })
-  }, 1000)
+  // setInterval(function () {
+  //   biff.send (pid, { m: Math.random() })
+  // }, 999)
+  // setInterval(function () {
+  //   biff.receive(pid, function (e, message) {
+  //     console.log('>',message)
+  //   })
+  // }, 1000)
 })
 .catch(function (e) { throw e; })
 

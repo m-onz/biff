@@ -1,6 +1,6 @@
 
 var json_stream = require('duplex-json-stream')
-var biff = require('.')()
+var biff = require('.').lib()
 var net = require('net')
 
 module.exports = function server () {

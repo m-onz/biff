@@ -23,14 +23,14 @@ recurse()
 send_demo ()
 `
 
-biff.spawn(c)
+spawn(c)
 .then(function (pid) {
   console.log(pid)
   setInterval(function () {
-    biff.send (pid, { x: Math.random() })
+    send (pid, { x: Math.random() })
   }, 500)
   setInterval(function () {
-    biff.receive(pid, function (e, message) {
+    receive(pid, function (e, message) {
       console.log('>', message)
     })
   }, 511)

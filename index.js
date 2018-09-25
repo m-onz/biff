@@ -5,6 +5,7 @@ var ivm  = require('isolated-vm')
 var path = require('path')
 var fs = require('fs')
 var os = require('os')
+var client = require('./client.js')
 
 function biff () {
   if (! (this instanceof biff)) return new biff ()
@@ -119,4 +120,7 @@ function biff () {
   return self
 }
 
-module.exports = biff
+module.exports = {
+  lib: biff,
+  client: client
+}

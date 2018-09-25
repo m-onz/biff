@@ -13,6 +13,10 @@
 
 http.createServer(function (req, res) {
 
+  var timeout = setTimeout(function () {
+    res.end()
+  }, 4000)
+
   spawn (__dirname+'/actor.js').then(function (pid) {
     send(pid, { req: req.url }).then(function () {
       receive('server::'+pid).then(function (message) {
@@ -21,6 +25,8 @@ http.createServer(function (req, res) {
         } else {
           res.end(JSON.stringify([]))
         }
+        clearInterval(timeout)
+        kill(pid)
       })
     })
   })

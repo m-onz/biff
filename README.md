@@ -9,13 +9,16 @@ Experimental actor system using isolated javascript runtimes [in progress!]
 
 ```js
 
-spawn('console.log(11)').then(function (pid) {
-  console.log('spawned an actor with process id ... ', pid)
-  send(pid, { hello: 'world!' })
+spawn(`
+setTimeout(1000).then(function () {
   receive(function (message) {
     // latest message
     console.log(message)
   })
+})
+`).then(function (pid) {
+  console.log('spawned an actor with process id ... ', pid)
+  send(pid, { hello: 'world!' })
 })
 
 ```
@@ -41,7 +44,6 @@ biff app.js
 npm install biff -g
 
 ```
-You will need to specify the entire file path including the .js file extension.
 
 ### install as a library
 

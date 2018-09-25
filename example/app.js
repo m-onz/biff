@@ -14,9 +14,12 @@
 spawn(__dirname+'/actor.js')
   .then(function (pid) {
     console.log('> ', pid)
-    setInterval(function () {
-      send(pid, { self: pid, m: Math.random() })
+    var x = setInterval(function () {
+      send(pid, { self: pid, left: Math.random(), right: Math.random() })
     }, 50)
+    setTimeout(function () {
+      clearInterval(x)
+    }, 5000)
   })
   .catch(function (e) {
     console.log('error in actor ', e)
@@ -24,6 +27,6 @@ spawn(__dirname+'/actor.js')
 
 console.log('we have fs access here::', fs.readdirSync(__dirname))
 
-// setTimeout(function () {
-//   process.exit(0)
-// }, 6000)
+setTimeout(function () {
+  process.exit(0)
+}, 6000)

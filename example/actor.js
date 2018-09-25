@@ -27,5 +27,7 @@ function mailbox (callback) {
 }
 
 mailbox(function (message) {
-  console.log(message)
+  if (message.hasOwnProperty('left') && message.hasOwnProperty('right')) {
+    console.log('evaluating ', message.left, ' + ', message.right, ' :: ', message.left + message.right)
+  }
 })

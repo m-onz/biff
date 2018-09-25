@@ -18,8 +18,8 @@ console.log('from actor example ', self)
 
 function recurse () {
   receive(function (messages) {
-    if (messages) console.log(messages, ' from actor')
-    setTimeout(1000).then(function () {
+    if (messages.length) console.log(messages, ' from actor')
+    setTimeout(0).then(function () {
       recurse ()
     })
   })

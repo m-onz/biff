@@ -13,7 +13,7 @@ function send_demo () {
 
 function recurse () {
   receive(function (messages) {
-    if (messages) console.log(messages, ' from actor')
+    if (messages.length) console.log(messages, ' from actor')
     setTimeout(1000).then(function () {
       recurse ()
     })
@@ -27,13 +27,13 @@ biff.spawn(c)
 .then(function (pid) {
   console.log(pid)
   setInterval(function () {
-    biff.send (pid, { m: Math.random() })
-  }, 999)
+    biff.send (pid, { x: Math.random() })
+  }, 500)
   setInterval(function () {
     biff.receive(pid, function (e, message) {
       console.log('>', message)
     })
-  }, 1000)
+  }, 511)
 })
 .catch(function (e) { throw e; })
 

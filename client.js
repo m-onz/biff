@@ -24,7 +24,9 @@ function client () {
         cmd: 'receive',
         pid: pid
       })
-      resolve(pid)
+      self.once('data', function (data) {
+        resolve(data)
+      })
     })
   }
   self.send = function (pid, message) {
@@ -34,7 +36,9 @@ function client () {
         pid: pid,
         message: message
       })
-      resolve(true)
+      self.once('data', function (data) {
+        resolve(data)
+      })
     })
   }
   self.kill = function (pid) {
@@ -43,7 +47,9 @@ function client () {
         cmd: 'kill',
         pid: pid
       })
-      resolve(pid)
+      self.once('data', function (data) {
+        resolve(data)
+      })
     })
   }
   return self

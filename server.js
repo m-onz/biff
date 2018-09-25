@@ -12,26 +12,22 @@ module.exports = function server () {
         case 'spawn':
           biff.spawn(data.actor)
             .then(function (pid) {
-              console.log('handle spawn')
               socket.write({ spawned: pid })
             }).catch(function (e) { socket.end(''+e) })
         break;
         case 'send':
-          console.log('handle send')
           biff.send(data.pid, data.message)
             .then(function (ok) {
               socket.write({ sent: ok })
             }).catch(function (e) { socket.write(''+e) })
         break;
         case 'receive':
-          console.log('handle receive')
           biff.receive(data.pid)
             .then(function (mailbox) {
               socket.write({ mailbox: mailbox })
             }).catch(function (e) { socket.write(''+e) })
         break;
         case 'kill':
-          console.log('handle kill')
           biff.kill(data.pid)
             .then(function (mailbox) {
               socket.write({ killed: data.pid })

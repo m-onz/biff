@@ -83,9 +83,14 @@ function biff () {
   }
   self.send = function (pid, message) {
     return new Promise(function (resolve, reject) {
-      self.db.put(`/actors/${pid}`, message, function (e) {
-        if (e) return reject (e)
-        resolve({ sent: pid })
+      self.db.get(`/actors/${pid}`, function (e, d) {
+        var queue = []
+        if (d && d[0] && d[0].hasOwnProperty('value')) queue = d[0].value
+        queue.push(message)
+        self.db.put(`/actors/${pid}`, queue, function (e) {
+          if (e) return reject (e)
+          resolve({ sent: pid })
+        })
       })
     })
   }
@@ -93,7 +98,13 @@ function biff () {
     return new Promise(function (resolve, reject) {
       self.db.get(`/actors/${pid}`, function (e, d) {
         if (e || !d[0]) return reject (e)
-        resolve(d[0].value)
+        var queue = d[0].value
+        if (!queue.length) return resolve([])
+        var latest = queue.pop()
+        self.db.put(`/actors/${pid}`, queue, function (e, d) {
+          if (e) return reject(e)
+          resolve(latest)
+        })
       })
     })
   }

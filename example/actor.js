@@ -16,17 +16,16 @@
 
 console.log('from actor example ', self)
 
-function recurse () {
+function mailbox (callback) {
   receive(function (messages) {
-    if (messages.length) console.log(messages, ' from actor')
+    var _messages = Object.assign({}, messages)
+    if (typeof _messages === 'object' && Object.keys(_messages).length) callback(_messages)
     setTimeout(0).then(function () {
-      recurse ()
+      mailbox (callback)
     })
   })
 }
 
-recurse()
-
-setTimeout(4000).then(function () {
-  exit(self)
+mailbox(function (message) {
+  console.log(message)
 })

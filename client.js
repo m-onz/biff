@@ -7,7 +7,6 @@ function client () {
   this.client = json_stream(net.connect(9999))
   var self = this.client
   self.spawn = function (actor) {
-    console.log('sending spawn :: ', actor)
     return new Promise(function (resolve, reject) {
       self.write({
         cmd: 'spawn',
@@ -16,6 +15,7 @@ function client () {
       self.once('data', function (data) {
         resolve(data.spawned)
       })
+      self.once('error', reject)
     })
   }
   self.receive = function (pid) {
@@ -27,6 +27,7 @@ function client () {
       self.once('data', function (data) {
         resolve(data)
       })
+      self.once('error', reject)
     })
   }
   self.send = function (pid, message) {
@@ -39,6 +40,7 @@ function client () {
       self.once('data', function (data) {
         resolve(data)
       })
+      self.once('error', reject)
     })
   }
   self.kill = function (pid) {
@@ -50,6 +52,7 @@ function client () {
       self.once('data', function (data) {
         resolve(data)
       })
+      self.once('error', reject)
     })
   }
   return self

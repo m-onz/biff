@@ -4,7 +4,7 @@
   "description": "",
   "main": "actor.js",
   "scripts": {
-    "start": "node ../bin.js ./app.js"
+    "start": "biff ./app.js"
   },
   "author": "",
   "license": "ISC"

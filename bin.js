@@ -6,11 +6,15 @@ var server = require('./server.js')()
 var biff = require('./client.js')()
 var vm   = require('vm')
 var fs   = require('fs')
+var net  = require('net')
+var http = require('http')
 
 // exposed node interfaces
 //
 global.fs = fs
 global.biff = biff
+global.net  = net
+global.http = http
 global.assert = assert
 global.__dirname = process.cwd()
 global.process = process

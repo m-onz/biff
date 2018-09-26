@@ -87,9 +87,11 @@ function _biff () {
 		.run(context)
 		.then(function () {
 			console.log('<', pid, '>')
-			callback(null, pid)
+			if (typeof callback === 'function') callback(null, pid)
 		})
-		.catch(callback)
+		.catch(function (e) {
+			if (typeof callback === 'function') callback(e)
+		})
 		return fun
 	}
 	this.send = function (pid, message) {

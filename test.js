@@ -4,6 +4,10 @@ var _biff = require('./biff.js')
 
 var biff = _biff ()
 
+biff.spawn(function () {
+  console.log(self, 11)
+})
+
 biff.spawn (function () {
 	console.log('inside a spawned function! ', self)
 	send (self, { a: Math.random() })

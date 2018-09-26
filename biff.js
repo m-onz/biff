@@ -24,9 +24,8 @@ function _biff () {
 			keys.push(d[0].key)
 		})
 		s.on('end', function () {
-			// flush messages
 			keys.forEach(function (k) {
-				self.db.del(k)
+				self.db.del(k) // flush messages
 			})
 			setTimeout(function () {
 				callback.apply(null, [ null, JSON.stringify(messages) ])
@@ -110,13 +109,12 @@ function _biff () {
 			})
 			s.on('end', function () {
 				e.emit('message', messages)
-				// flush messages
-				// keys.forEach(function (k) {
-				// 	self.db.del(k)
-				// })
 			})
 		})
 		return e
+	}
+	this.kill = function (pid) {
+		console.log('stub')
 	}
 	return this
 }

@@ -16,10 +16,21 @@ function _biff () {
 	})
 	self.db = self.mesh.db
 	self.handleReceive = function (pid, callback) {
-		self.receive(pid).then(function (mailbox) {
-			callback.apply(null, [null, JSON.stringify(mailbox) ])
-		}).catch(function (e) {
-			callback.apply(null, [null, JSON.stringify(e) ])
+		var s = self.db.createReadStream('/actors/'+pid)
+		var messages = []
+		var keys = []
+		s.on('data', function (d) {
+			messages.push(d[0].value)
+			keys.push(d[0].key)
+		})
+		s.on('end', function () {
+			// flush messages
+			keys.forEach(function (k) {
+				self.db.del(k)
+			})
+			setTimeout(function () {
+				callback.apply(null, [ null, JSON.stringify(messages) ])
+			}, 11)
 		})
 	}
 	self.handleSetimeout = function (timer, callback) {
@@ -98,9 +109,9 @@ function _biff () {
 			s.on('end', function () {
 				e.emit('message', messages)
 				// flush messages
-				keys.forEach(function (k) {
-					self.db.del(k)
-				})
+				// keys.forEach(function (k) {
+				// 	self.db.del(k)
+				// })
 			})
 		})
 		return e
@@ -108,10 +119,4 @@ function _biff () {
 	return this
 }
 
-var biff = _biff ()
-
-biff.spawn (function () {
-	console.log('inside a spawned function! ', self)
-}, function (pid) {
-	console.log('>>> ', pid)
-})
+module.exports = _biff

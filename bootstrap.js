@@ -26,6 +26,23 @@ new function () {
   global.receive = function (cb) {
     __receive(self).then(cb).catch(cb)
   }
+  let on = _on
+  delete _on
+  global.__on = function (channel, callback) {
+    return new Promise((resolve, reject) => {
+      const callback = new ivm.Reference(function (err, resp) {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(JSON.parse(resp))
+        }
+      })
+      on.apply(null, [channel, callback])
+    })
+  }
+  global.on = function (channel, cb) {
+    __on(channel).then(cb).catch(cb)
+  }
   let send = _send;
   delete _send;
   global.send = function (...args) {
@@ -40,6 +57,11 @@ new function () {
   delete _exit;
   global.exit = function (...args) {
     exit.applyIgnored(undefined, args.map(arg => new ivm.ExternalCopy(arg).copyInto()));
+  }
+  let emit = _emit;
+  delete _emit;
+  global.emit = function (...args) {
+    emit.applyIgnored(undefined, args.map(arg => new ivm.ExternalCopy(arg).copyInto()));
   }
   // util
   let setTimeout = _setTimeout

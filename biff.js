@@ -32,6 +32,18 @@ function _biff () {
 			}, 11)
 		})
 	}
+	self.handleReceiveFromChannel = function (channel, callback) {
+		var s = self.db.createReadStream('/channel/' + channel)
+		var messages = []
+		s.on('data', function (d) {
+			messages.push(d[0].value)
+		})
+		s.on('end', function () {
+			setTimeout(function () {
+				callback.apply(null, [ null, JSON.stringify(messages) ])
+			}, 11)
+		})
+	}
 	self.handleSetimeout = function (timer, callback) {
 		setTimeout(function () {
 			callback.apply(null, [ null, true ])
@@ -60,6 +72,12 @@ function _biff () {
 				console.log('<spawned>', pid)
 			}).catch(function (e) { console.log('error during spawn::', e)})
 		}))
+		jail.setSync('_emit', new ivm.Reference(function (...args) {
+			var channel = args[0]
+			var message = args[1]
+			message.id = crypto.randomBytes(11).toString('hex')
+			self.db.put('/channel/'+channel+'/'+new Date().toISOString(), message)
+		}))
 		jail.setSync('_exit', new ivm.Reference(function (...args) {
 			console.log('should destroy... ', args)
 			self.kill(args[0]).then(function () {
@@ -69,6 +87,7 @@ function _biff () {
 			}).catch(function (e) { console.log('error killing actor::', e)})
 		}))
 		jail.setSync('_receive', new ivm.Reference(self.handleReceive))
+		jail.setSync('_on', new ivm.Reference(self.handleReceiveFromChannel))
 		jail.setSync('_setTimeout', new ivm.Reference(self.handleSetimeout))
 		var code = iso.compileScriptSync(fs.readFileSync(__dirname+'/bootstrap.js').toString())
 		code.runSync(context)

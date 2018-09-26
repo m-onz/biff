@@ -4,7 +4,7 @@
   "description": "Experimental actor system using isolated javascript runtimes",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "node ./bin.js test.js"
   },
   "repository": {
     "type": "git",
